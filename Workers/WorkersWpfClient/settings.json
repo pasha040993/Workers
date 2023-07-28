@@ -1,0 +1,5 @@
+{
+  "AppSettings": {
+    "ServerEndpoint": "http://localhost:5285"
+  }
+}

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option csharp_namespace = "WorkersServer";
+
+service WorkerIntegration {
+	rpc ListWorkers(EmptyMessage) returns (ListWorker);
+	rpc CreateWorker(WorkerMessage) returns (WorkerAction);
+	rpc UpdateWorker(WorkerMessage) returns (WorkerAction);
+	rpc DeleteWorker(DeleteWorkerRequest) returns (WorkerAction);
+}
+
+message ListWorker
+{
+	repeated WorkerMessage Workers = 1;
+}
+
+message EmptyMessage
+{
+}
+
+message WorkerAction
+{
+	WorkerMessage worker = 1;
+	Action actionType = 2;
+}
+
+message WorkerMessage
+{
+	string LastName = 1;
+	string FirstName = 2;
+	string MiddleName = 3;
+	int64 Birthday = 4;
+	Sex Sex = 5;
+	bool HaveChildren = 6;
+	string Id = 7;
+}
+
+message DeleteWorkerRequest{
+	string id =1;
+}
+
+//Пол
+enum Sex {
+	Male = 0;
+	Female = 1;
+}
+
+enum Action {
+	Default = 0;
+	Create = 1;
+	Update = 2;
+	Delete = 3;
+}
