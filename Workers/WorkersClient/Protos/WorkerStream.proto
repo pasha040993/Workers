@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "WorkersWpfClient";
+option csharp_namespace = "WorkersClient";
 
 service WorkerIntegration {
 	rpc ListWorkers(EmptyMessage) returns (ListWorker);

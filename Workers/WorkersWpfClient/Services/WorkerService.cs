@@ -9,6 +9,7 @@ using WorkersWpfClient.Interface;
 using WorkersWpfClient.Models;
 using WorkersWpfClient.ViewModels;
 using Microsoft.Extensions.Logging;
+using WorkersClient;
 
 namespace WorkersWpfClient.Services
 {
@@ -29,8 +30,8 @@ namespace WorkersWpfClient.Services
         {
             try
             {
-                using var channel = GrpcChannel.ForAddress(_appSettings.ServerEndpoint);
-                var client = new WorkerIntegration.WorkerIntegrationClient(channel);
+                using var serviceProvider = new GrpcServiceProvider(_appSettings.ServerEndpoint);
+                var client = serviceProvider.GetClient();
                 var res = await client.CreateWorkerAsync(_mapper.Map<WorkerMessage>(worker));
                 return (true, _mapper.Map<WorkerViewModel>(res.Worker));
             }
@@ -45,8 +46,8 @@ namespace WorkersWpfClient.Services
         {
             try
             {
-                using var channel = GrpcChannel.ForAddress(_appSettings.ServerEndpoint);
-                var client = new WorkerIntegration.WorkerIntegrationClient(channel);
+                using var serviceProvider = new GrpcServiceProvider(_appSettings.ServerEndpoint);
+                var client = serviceProvider.GetClient();
                 await client.DeleteWorkerAsync(new DeleteWorkerRequest()
                 {
                     Id = worker.Id.ToString()
@@ -62,8 +63,8 @@ namespace WorkersWpfClient.Services
 
         public async Task<IEnumerable<WorkerViewModel>> GetAllWorkers()
         {
-            using var channel = GrpcChannel.ForAddress(_appSettings.ServerEndpoint);
-            var client = new WorkerIntegration.WorkerIntegrationClient(channel);
+            using var serviceProvider = new GrpcServiceProvider(_appSettings.ServerEndpoint);
+            var client = serviceProvider.GetClient();
             var reply = await client.ListWorkersAsync(new EmptyMessage());
             return reply.Workers.Select(w => _mapper.Map<WorkerViewModel>(w));
         }
@@ -72,8 +73,8 @@ namespace WorkersWpfClient.Services
         {
             try
             {
-                using var channel = GrpcChannel.ForAddress(_appSettings.ServerEndpoint);
-                var client = new WorkerIntegration.WorkerIntegrationClient(channel);
+                using var serviceProvider = new GrpcServiceProvider(_appSettings.ServerEndpoint);
+                var client = serviceProvider.GetClient();
                 await client.UpdateWorkerAsync(_mapper.Map<WorkerMessage>(worker));
                 return true;
             }

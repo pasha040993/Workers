@@ -50,6 +50,10 @@ namespace WorkersWpfClient.ViewModels
                 Workers = new ObservableCollection<WorkerViewModel>(await _workerService.GetAllWorkers());
                 OnPropertyChanged(nameof(Workers));
             }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка при обновлении данных.");
+            }
             finally
             {
                 _isRefreshState = false;

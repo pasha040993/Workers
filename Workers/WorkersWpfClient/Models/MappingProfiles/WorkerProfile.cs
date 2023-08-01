@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using WorkersClient;
 using WorkersWpfClient.ViewModels;
 
 namespace WorkersWpfClient.Models.MappingProfiles
